@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: ams
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    open-in-view: false
+    properties:
+      hibernates:
+        jdbc:
+          time_zone: UTC
+  output:
+    ansi:
+      enabled: always
+  http:
+    converters:
+      preferred-json-mapper: gson
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  profiles: dev
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/ams?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false
+    username: user
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+  flyway:
+    user: user
+    password: password
+    url: jdbc:mysql://localhost:3306/ams?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false
+logging:
+  level:
+    root: DEBUG
