@@ -1,12 +1,8 @@
 package lf65.ams.infrastructure;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import lf65.ams.domain.Error;
-import lf65.ams.infrastructure.gson.ErrorsTypeAdapter;
 import lf65.ams.infrastructure.gson.LinksArrayTypeAdapter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.Link;
@@ -29,12 +25,9 @@ public class AmsWebMvcConfiguration implements WebMvcConfigurer {
     private Gson gson() {
         final Type linkListType = new TypeToken<List<Link>>() {
         }.getType();
-        final Type errorListType = new TypeToken<List<Error>>() {
-        }.getType();
         return new GsonBuilder()
                 .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(linkListType, new LinksArrayTypeAdapter())
-                .registerTypeAdapter(errorListType, new ErrorsTypeAdapter())
                 .create();
     }
 

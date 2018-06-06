@@ -10,21 +10,20 @@ import java.util.Map;
 
 import static lf65.ams.application.service.Validation.min;
 import static lf65.ams.application.service.Validation.required;
+import static lf65.ams.domain.user.Sex.MALE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ValidationTest {
 
-    private Map<String, Object> json;
+    private Map<String, Object> json = new HashMap<>();
 
     @Before
     public void setUp() {
-        json = new HashMap<String, Object>() {{
-            put("name", "felix");
-            put("age", -1);
-            put("sex", "MALE");
-            put("email", "yz@cmb.com");
-        }};
+        json.put("name", "felix");
+        json.put("age", -1);
+        json.put("sex", MALE);
+        json.put("email", "felix@cmb.com");
     }
 
     @Test

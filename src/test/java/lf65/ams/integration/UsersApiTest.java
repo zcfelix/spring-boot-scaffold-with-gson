@@ -3,16 +3,18 @@ package lf65.ams.integration;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import lf65.ams.support.ApiTest;
+import lf65.ams.support.FileReaderEAM;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.io.IOException;
+
 import static io.restassured.RestAssured.given;
 import static lf65.ams.support.CustomMatchers.matchesRegex;
-import static lf65.ams.support.TestHelper.readJsonFrom;
-import static org.hamcrest.CoreMatchers.hasItems;
+import static lf65.ams.support.FileReaderEAM.use;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
@@ -56,8 +58,8 @@ public class UsersApiTest extends ApiTest {
     }
 
     @Test
-    public void should_return_201_when_create_user_success() {
-        final String content = readJsonFrom("fixture/user/user-201.json");
+    public void should_return_201_when_create_user_success() throws IOException {
+        final String content = use("fixture/user/user-201.json", FileReaderEAM::readJson);
 
         final Response response = given()
                 .contentType(ContentType.JSON)

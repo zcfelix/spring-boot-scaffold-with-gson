@@ -1,4 +1,4 @@
-package lf65.ams.rest;
+package lf65.ams.domain;
 
 import org.springframework.hateoas.Link;
 
@@ -53,10 +53,8 @@ public class AmsResourceSupport {
 
     public List<Link> getLinks(String rel) {
         List<Link> relatedLinks = new ArrayList();
-        Iterator var3 = this.links.iterator();
 
-        while(var3.hasNext()) {
-            Link link = (Link)var3.next();
+        for (Link link : this.links) {
             if (link.getRel().equals(rel)) {
                 relatedLinks.add(link);
             }

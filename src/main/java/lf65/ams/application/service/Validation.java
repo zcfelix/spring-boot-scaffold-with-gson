@@ -12,6 +12,8 @@ import static lf65.ams.rest.ErrorCode.FIELD_VALUE_ERROR;
 import static lf65.ams.rest.ErrorCode.NON_EXIST_FIELD;
 
 public final class Validation {
+    private Validation() {
+    }
 
     public static List<Error> validate(final Map<String, Object> json, final Validator... validators) {
         return Arrays

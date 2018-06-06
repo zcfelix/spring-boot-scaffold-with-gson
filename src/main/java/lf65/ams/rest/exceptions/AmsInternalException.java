@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 public abstract class AmsInternalException extends RuntimeException {
-    private List<Error> errors;
+    private final List<Error> errors;
 
     public AmsInternalException(List<Error> errors) {
         super();

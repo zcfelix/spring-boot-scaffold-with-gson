@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static lf65.ams.application.service.Converter.toDomain;
 import static lf65.ams.application.service.Validation.*;
+import static lf65.ams.infrastructure.Util.notEmpty;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -41,7 +42,7 @@ public class UsersApi {
                 required("name", "sex", "email"),
                 min("age", 0));
 
-        if (errors.size() != 0) {
+        if (notEmpty(errors)) {
             throw new BadRequestException(errors);
         }
 

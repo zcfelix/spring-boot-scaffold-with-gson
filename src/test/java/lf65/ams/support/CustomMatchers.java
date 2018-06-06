@@ -4,7 +4,10 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-public class CustomMatchers {
+public final class CustomMatchers {
+    private CustomMatchers() {
+    }
+
     public static Matcher<String> matchesRegex(final String regex) {
         return new BaseMatcher<String>() {
             @Override

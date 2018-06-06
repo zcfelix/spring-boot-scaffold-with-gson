@@ -9,11 +9,13 @@ import org.springframework.hateoas.Link;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static lf65.ams.infrastructure.Util.isEmpty;
+
 public class LinksArrayTypeAdapter implements JsonSerializer<List<Link>> {
+
     @Override
     public JsonElement serialize(List<Link> links, Type type, JsonSerializationContext context) {
-
-        if (links.size() == 0) {
+        if (isEmpty(links)) {
             return null;
         }
 

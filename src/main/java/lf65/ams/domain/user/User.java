@@ -1,6 +1,6 @@
 package lf65.ams.domain.user;
 
-import lf65.ams.rest.AmsResourceSupport;
+import lf65.ams.domain.AmsResourceSupport;
 
 import javax.persistence.*;
 

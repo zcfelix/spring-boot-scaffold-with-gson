@@ -4,6 +4,7 @@ import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import lf65.ams.domain.user.UserRepository;
 import lf65.ams.support.ApiUnitTest;
+import lf65.ams.support.FileReaderEAM;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,12 +12,12 @@ import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static lf65.ams.support.CustomMatchers.matchesRegex;
-import static lf65.ams.support.TestHelper.readFrom;
-import static lf65.ams.support.TestHelper.readJsonFrom;
+import static lf65.ams.support.FileReaderEAM.use;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -40,8 +41,8 @@ public class UsersApiUnitTest extends ApiUnitTest {
     }
 
     @Test
-    public void should_return_415_when_create_user_with_invalid_json() {
-        final String content = readFrom("fixture/invalid-json.json");
+    public void should_return_415_when_create_user_with_invalid_json() throws IOException {
+        final String content = use("fixture/invalid-json.json", FileReaderEAM::readString);
 
         final MockMvcResponse response = given()
                 .contentType(ContentType.JSON)
@@ -59,8 +60,8 @@ public class UsersApiUnitTest extends ApiUnitTest {
     }
 
     @Test
-    public void should_400_when_create_user_without_required_field() {
-        final String content = readJsonFrom("fixture/user/user-400-without-required-field.json");
+    public void should_400_when_create_user_without_required_field() throws IOException {
+        final String content = use("fixture/user/user-400-without-required-field.json", FileReaderEAM::readJson);
 
         final MockMvcResponse response = given()
                 .contentType(ContentType.JSON)
@@ -79,8 +80,8 @@ public class UsersApiUnitTest extends ApiUnitTest {
     }
 
     @Test
-    public void should_return_400_when_create_user_with_invalid_age() {
-        final String content = readJsonFrom("fixture/user/user-400-with-invalid-age.json");
+    public void should_return_400_when_create_user_with_invalid_age() throws IOException {
+        final String content = use("fixture/user/user-400-with-invalid-age.json", FileReaderEAM::readJson);
 
         final MockMvcResponse response = given()
                 .contentType(ContentType.JSON)
