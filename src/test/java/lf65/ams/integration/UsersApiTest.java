@@ -37,6 +37,12 @@ public class UsersApiTest extends ApiTest {
                 .statusCode(200)
                 .body("data[0].name", notNullValue())
                 .body("data[0].sex", matchesRegex("^(MALE|FEMALE)$"))
+                .body("pages.links", notNullValue())
+                .body("pages.links.self", notNullValue())
+                .body("pages.links.first", notNullValue())
+                .body("pages.links.last", notNullValue())
+                .body("pages.total", notNullValue())
+                .body("pages.count", notNullValue())
                 .extract()
                 .response();
         LOGGER.info(">>>>>{}", response.asString());

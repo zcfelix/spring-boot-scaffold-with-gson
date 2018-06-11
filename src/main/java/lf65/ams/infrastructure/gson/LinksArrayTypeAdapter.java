@@ -21,9 +21,9 @@ public class LinksArrayTypeAdapter implements JsonSerializer<List<Link>> {
 
         JsonObject jsonLinks = new JsonObject();
         for (Link link : links) {
-            final JsonObject jsonLink = new JsonObject();
-            jsonLink.addProperty("href", link.getHref());
-            jsonLinks.add(link.getRel(), jsonLink);
+            if (link != null ) {
+                jsonLinks.addProperty(link.getRel(), link.getHref());
+            }
         }
         return jsonLinks;
     }
