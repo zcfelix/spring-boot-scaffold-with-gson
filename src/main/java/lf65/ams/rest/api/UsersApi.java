@@ -3,9 +3,8 @@ package lf65.ams.rest.api;
 import lf65.ams.domain.Error;
 import lf65.ams.domain.user.User;
 import lf65.ams.domain.user.UserRepository;
-import lf65.ams.rest.AmsPage;
+import lf65.ams.rest.AmsPageResource;
 import lf65.ams.rest.AmsResource;
-import lf65.ams.rest.AmsResources;
 import lf65.ams.rest.exceptions.BadRequestException;
 import lf65.ams.rest.exceptions.NotFoundException;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +58,6 @@ public class UsersApi {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity listUsers(Pageable pageable) {
-        final List<User> all = repository.findAll();
         Page<User> users = repository.findAll(pageable);
 
         for (final User user : users.getContent()) {
@@ -68,7 +65,7 @@ public class UsersApi {
             user.add(selfLink);
         }
 
-        AmsPage<User> page = new AmsPage<>(users, pageable);
+        AmsPageResource<User> page = new AmsPageResource<>(users, pageable);
         return ResponseEntity.ok(page);
     }
 

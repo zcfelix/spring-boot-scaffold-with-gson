@@ -32,7 +32,7 @@ public class UsersApiTest extends ApiTest {
     public void should_return_200_when_list_all_users_success() {
         final Response response = given()
                 .when()
-                .get(USERS_URL)
+                .get(USERS_URL + "?page=1&size=1")
                 .then()
                 .statusCode(200)
                 .body("data[0].name", notNullValue())

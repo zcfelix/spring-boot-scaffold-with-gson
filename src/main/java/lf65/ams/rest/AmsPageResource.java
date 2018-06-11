@@ -7,13 +7,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
-public class AmsPage<T> {
-    private List<T> data;
-    private Pagination pages;
+public class AmsPageResource<T> {
+    private final List<T> data;
+    private final Pagination pages;
 
-    public AmsPage(Page<T> currentPage, Pageable pageable) {
+    public AmsPageResource(Page<T> currentPage, Pageable pageable) {
         this.data = currentPage.getContent();
-        Link selfLink = formatSelfLink(currentPage, pageable);
+        Link selfLink = formatSelfLink(currentPage);
         Link previousLink = formatPreviousLink(currentPage, pageable);
         Link nextLink = formatNextLink(currentPage);
         Link firstLink = formatFirstLink(currentPage);
@@ -23,7 +23,7 @@ public class AmsPage<T> {
     }
 
 
-    private Link formatSelfLink(Page<T> page, Pageable pageable) {
+    private Link formatSelfLink(Page<T> page) {
         return buildPageLink("page", page.getNumber(), "size", page.getSize(), Link.REL_SELF);
     }
 
@@ -45,9 +45,9 @@ public class AmsPage<T> {
         return buildPageLink("page", page.getTotalPages()-1, "count", page.getSize(), Link.REL_LAST);
     }
 
-    private Link buildPageLink(String pageParam,int page,String sizeParam,int size,String rel) {
+    private Link buildPageLink(String pageParam, int pageIndex, String sizeParam, int size, String rel) {
         String path = createBuilder()
-                .queryParam(pageParam,page)
+                .queryParam(pageParam, pageIndex + 1)
                 .queryParam(sizeParam,size)
                 .build()
                 .toUriString();

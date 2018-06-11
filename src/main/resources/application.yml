@@ -15,10 +15,13 @@ spring:
   output:
     ansi:
       enabled: always
-  spring:
-    data:
-      rest:
-        default-page-size: 20
+  data:
+    rest:
+      default-page-size: 20
+    web:
+      pageable:
+        one-indexed-parameters: true
+
   http:
     converters:
       preferred-json-mapper: gson
