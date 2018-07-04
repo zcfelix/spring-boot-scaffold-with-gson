@@ -7,6 +7,7 @@ import com.cmb.lf65.ams.domain.user.UserRepository;
 import com.cmb.lf65.ams.infrastructure.Util;
 import com.cmb.lf65.ams.rest.AmsPageResource;
 import com.cmb.lf65.ams.rest.AmsResource;
+import com.cmb.lf65.ams.rest.ErrorCode;
 import com.cmb.lf65.ams.rest.exceptions.BadRequestException;
 import com.cmb.lf65.ams.rest.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.cmb.lf65.ams.application.service.Converter.toDomain;
+import static com.cmb.lf65.ams.domain.Error.fromErrorCode;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -29,8 +31,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/users")
 public class UsersApi {
 
+    private final UserRepository repository;
+
     @Autowired
-    private UserRepository repository;
+    public UsersApi(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,7 +79,7 @@ public class UsersApi {
 
         return repository.findById(id)
                 .map(u -> ResponseEntity.ok(new AmsResource<>(u.add(link))))
-                .orElseThrow(() -> new NotFoundException(Error.builder().withStatus("404").withTitle("用户不存在").build()));
+                .orElseThrow(() -> new NotFoundException(fromErrorCode(ErrorCode.RESOURCE_NOT_EXIST, "用户")));
     }
 
 }

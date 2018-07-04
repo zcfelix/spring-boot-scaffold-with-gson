@@ -7,9 +7,9 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class Pagination {
-    private long count;
-    private long total;
-    private List<Link> links;
+    private final long count;
+    private final long total;
+    private final List<Link> links;
 
     public Pagination(Link self, Link next, Link prev, Link first, Link last, long count, long total) {
         this.count = count;

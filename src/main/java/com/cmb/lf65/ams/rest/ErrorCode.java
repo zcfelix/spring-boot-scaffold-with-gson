@@ -8,9 +8,11 @@ public enum ErrorCode {
 
     UNREADABLE_REQUEST(415, "AMS-415-0001", "不支持的媒体类型"),
 
-    JSON_SYNTAX_ERROR(400, "AMS-400-0001", "请求体存在json格式错误"),
-    NON_EXIST_FIELD(400, "AMS-400-0002", "必选字段{0}不存在"),
-    FIELD_VALUE_ERROR(400, "AMS-400-0003", "字段{0}的取值{1}不合法");
+    JSON_SYNTAX_ERROR(400, "AMS-400-0002", "请求体存在json格式错误"),
+    NON_EXIST_FIELD(400, "AMS-400-0003", "必选字段{0}不存在"),
+    FIELD_VALUE_ERROR(400, "AMS-400-0004", "字段{0}的取值{1}不合法"),
+
+    RESOURCE_NOT_EXIST(404, "AMS-400-0005", "{0}不存在");
 
     private HttpStatus status;
     private String code;
