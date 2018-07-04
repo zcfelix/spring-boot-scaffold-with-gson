@@ -28,7 +28,7 @@ public abstract class ApiTest {
     @BeforeClass
     public static void beforeClass() {
         LOGGER.info(String.format("Api Tests resolved profiles are [%s].", System.getProperty("spring.profiles.active")));
-        RestAssured.port = 8081;
+        RestAssured.port = 8080;
         RestAssured.baseURI = "http://localhost";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
