@@ -2,16 +2,18 @@ package com.cmb.lf65.ams.support;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-public abstract class TestHelper {
+public final class TestHelper {
 
     private static final String ENCODING = "UTF-8";
+
+    private TestHelper() {
+    }
 
     public static String readJsonFrom(String fileName) throws IOException {
         String content = readStringFrom(fileName);
@@ -19,13 +21,7 @@ public abstract class TestHelper {
     }
 
     public static String readStringFrom(String fileName) throws IOException {
-        File file = getFile(fileName);
-        Long length = file.length();
-        byte[] content = new byte[length.intValue()];
-        try (FileInputStream in = new FileInputStream(file)) {
-            IOUtils.readFully(in, content);
-        }
-        return new String(content, ENCODING);
+        return FileUtils.readFileToString(getFile(fileName), ENCODING);
     }
 
     private static File getFile(String fileName) {

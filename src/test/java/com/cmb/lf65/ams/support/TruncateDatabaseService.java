@@ -15,7 +15,7 @@ import java.util.Objects;
 import static java.util.stream.Collectors.toList;
 
 @Service
-@Profile("test")
+@Profile({"test"})
 public class TruncateDatabaseService {
 
     @Autowired

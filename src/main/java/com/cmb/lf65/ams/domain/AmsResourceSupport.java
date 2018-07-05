@@ -52,7 +52,7 @@ public class AmsResourceSupport {
     }
 
     public List<Link> getLinks(String rel) {
-        List<Link> relatedLinks = new ArrayList();
+        List<Link> relatedLinks = new ArrayList<>();
 
         for (Link link : this.links) {
             if (link.getRel().equals(rel)) {
