@@ -22,12 +22,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <flyway.user>user</flyway.user>
-        <flyway.password>password</flyway.password>
-        <flyway.url>
-            jdbc:mysql://localhost:3306/ams?autoReconnect=true&amp;useSSL=false&amp;useLegacyDatetimeCode=false
-        </flyway.url>
-        <flyway.locations>classpath:/db</flyway.locations>
         <docker.baseDir>src/main/docker</docker.baseDir>
     </properties>
 
@@ -36,16 +30,22 @@
             <id>dev</id>
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
+                <flyway.user>user</flyway.user>
+                <flyway.password>password</flyway.password>
+                <flyway.url>
+                    jdbc:mysql://localhost:3306/ams?autoReconnect=true&amp;useSSL=false&amp;useLegacyDatetimeCode=false
+                </flyway.url>
+                <flyway.locations>classpath:/db</flyway.locations>
             </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <id>test</id>
             <properties>
                 <spring.profiles.active>test</spring.profiles.active>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
     </profiles>
 
