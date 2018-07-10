@@ -10,7 +10,7 @@ import org.springframework.hateoas.Link;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class LinksArrayTypeAdapter implements JsonSerializer<List<Link>> {
+public class LinksTypeAdapter implements JsonSerializer<List<Link>> {
 
     @Override
     public JsonElement serialize(List<Link> links, Type type, JsonSerializationContext context) {
