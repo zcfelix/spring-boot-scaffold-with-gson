@@ -10,7 +10,3 @@ spring:
     password:
     driver-class-name: org.h2.Driver
     platform: mysql
-  flyway:
-    user: user
-    password: password
-    url: jdbc:mysql://localhost:3306/ams?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false

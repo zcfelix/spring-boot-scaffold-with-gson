@@ -33,7 +33,7 @@ public final class Validation {
     public static Validator min(final String field, final int minValue) {
         return json -> {
             if (!json.containsKey(field)) {
-                return singletonList(fromErrorCode(NON_EXIST_FIELD, field));
+                return emptyList();
             }
             final Integer value = Double.valueOf(json.get(field).toString()).intValue();
             return value > minValue ? emptyList() : singletonList(fromErrorCode(FIELD_VALUE_ERROR, field, value.toString()));

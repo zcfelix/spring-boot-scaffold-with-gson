@@ -3,7 +3,8 @@ CREATE TABLE `users` (
   `id`         BIGINT(20)  NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name`       VARCHAR(20) NOT NULL,
   `sex`        VARCHAR(8),
-  `created_at` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `age`        INTEGER NOT NULL,
+  `email`      VARCHAR(250)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

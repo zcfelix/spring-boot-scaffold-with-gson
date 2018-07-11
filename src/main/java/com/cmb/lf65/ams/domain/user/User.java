@@ -1,12 +1,12 @@
 package com.cmb.lf65.ams.domain.user;
 
-import com.cmb.lf65.ams.domain.AmsResourceSupport;
+import com.cmb.lf65.ams.domain.Auditable;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User extends AmsResourceSupport {
+public class User extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,11 @@ public class User extends AmsResourceSupport {
         this.age = age;
         this.email = email;
         this.sex = sex;
+    }
+
+    public User setName(String name) {
+        this.name = name;
+        return this;
     }
 
     public Long getId() {

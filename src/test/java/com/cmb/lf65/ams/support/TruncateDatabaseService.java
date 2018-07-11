@@ -31,6 +31,7 @@ public class TruncateDatabaseService {
                 .getManagedTypes()
                 .stream()
                 .filter(Objects::nonNull)
+                .filter(x -> x.getJavaType().getAnnotation(Table.class) != null)
                 .map(x -> x.getJavaType().getAnnotation(Table.class).name())
                 .collect(toList());
         entityManager.flush();

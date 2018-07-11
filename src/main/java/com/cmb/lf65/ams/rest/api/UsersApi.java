@@ -1,6 +1,5 @@
 package com.cmb.lf65.ams.rest.api;
 
-import com.cmb.lf65.ams.application.service.Validation;
 import com.cmb.lf65.ams.domain.Error;
 import com.cmb.lf65.ams.domain.user.User;
 import com.cmb.lf65.ams.domain.user.UserRepository;
@@ -16,13 +15,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
 import static com.cmb.lf65.ams.application.service.Converter.toDomain;
+import static com.cmb.lf65.ams.application.service.Validation.*;
 import static com.cmb.lf65.ams.domain.Error.fromErrorCode;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -42,9 +45,9 @@ public class UsersApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity createUser(@RequestBody Map<String, Object> userMap) {
 
-        final List<Error> errors = Validation.validate(userMap,
-                Validation.required("name", "sex", "email"),
-                Validation.min("age", 0));
+        final List<Error> errors = validate(userMap,
+                required("name", "sex", "email", "age"),
+                min("age", 0));
 
         if (Util.notEmpty(errors)) {
             throw new BadRequestException(errors);
@@ -62,11 +65,6 @@ public class UsersApi {
     public ResponseEntity listUsers(Pageable pageable) {
         Page<User> users = repository.findAll(pageable);
 
-        for (final User user : users.getContent()) {
-            Link selfLink = linkTo(methodOn(UsersApi.class).showUser(user.getId())).withSelfRel();
-            user.add(selfLink);
-        }
-
         AmsPageResource<User> page = new AmsPageResource<>(users, pageable);
         return ResponseEntity.ok(page);
     }
@@ -78,8 +76,29 @@ public class UsersApi {
         Link link = linkTo(methodOn(UsersApi.class).showUser(id)).withSelfRel();
 
         return repository.findById(id)
-                .map(u -> ResponseEntity.ok(new AmsResource<>(u.add(link))))
+                .map(u -> ResponseEntity.ok(new AmsResource<>(u, link)))
                 .orElseThrow(() -> new NotFoundException(fromErrorCode(ErrorCode.RESOURCE_NOT_EXIST, "用户")));
     }
 
+    @PatchMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity updateUser(@PathVariable("id") Long id,
+                                     @RequestBody Map<String, Object> updateMap) {
+        final List<Error> errors = validate(updateMap, min("age", 0));
+        if (!CollectionUtils.isEmpty(errors)) {
+            throw new BadRequestException(errors);
+        }
+
+        return repository.findById(id)
+                .map(u -> {
+                    updateMap.forEach((k, v) -> {
+                        final Field field = ReflectionUtils.findField(User.class, k);
+                        field.setAccessible(true);
+                        ReflectionUtils.setField(field, u, v);
+                    });
+                    repository.save(u);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElseThrow(() -> new NotFoundException(fromErrorCode(ErrorCode.RESOURCE_NOT_EXIST, "用户")));
+    }
 }
