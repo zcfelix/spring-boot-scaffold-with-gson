@@ -1,5 +1,7 @@
 package com.cmb.lf65.ams.infrastructure.gson;
 
+import com.cmb.lf65.ams.rest.AmsResource;
+import com.cmb.lf65.ams.rest.AmsResources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +22,8 @@ public class GsonConfiguration {
 
         return new GsonBuilder()
                 .registerTypeAdapter(linkListType, new LinksTypeAdapter())
+                .registerTypeAdapter(AmsResource.class, new AmsResourceTypeAdapter<>())
+                .registerTypeAdapter(AmsResources.class, new AmsResourcesTypeAdapter<>())
                 .create();
     }
 }

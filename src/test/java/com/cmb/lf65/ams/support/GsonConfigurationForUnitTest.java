@@ -1,6 +1,10 @@
 package com.cmb.lf65.ams.support;
 
+import com.cmb.lf65.ams.infrastructure.gson.AmsResourceTypeAdapter;
+import com.cmb.lf65.ams.infrastructure.gson.AmsResourcesTypeAdapter;
 import com.cmb.lf65.ams.infrastructure.gson.LinksTypeAdapter;
+import com.cmb.lf65.ams.rest.AmsResource;
+import com.cmb.lf65.ams.rest.AmsResources;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -27,11 +31,12 @@ final class GsonConfigurationForUnitTest {
 
     private static Gson gson() {
         final Type linkListType = new TypeToken<List<Link>>() {
-
         }.getType();
 
         return new GsonBuilder()
                 .registerTypeAdapter(linkListType, new LinksTypeAdapter())
+                .registerTypeAdapter(AmsResource.class, new AmsResourceTypeAdapter<>())
+                .registerTypeAdapter(AmsResources.class, new AmsResourcesTypeAdapter<>())
                 .create();
     }
 }

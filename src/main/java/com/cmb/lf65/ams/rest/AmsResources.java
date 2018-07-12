@@ -6,16 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AmsResources<T> {
-    private List<T> data;
+    private List<AmsResource<T>> resources;
     private List<Link> links;
 
-    public AmsResources(List<T> data, Link... links) {
-        this.data = data;
-        this.links = Arrays.asList(links);
+    public AmsResources(List<AmsResource<T>> resources, List<Link> links) {
+        this.resources = resources;
+        this.links = links;
     }
 
-    public List<T> getData() {
-        return data;
+    public List<AmsResource<T>> getResources() {
+        return resources;
     }
 
     public List<Link> getLinks() {

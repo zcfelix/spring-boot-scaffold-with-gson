@@ -6,6 +6,7 @@ import com.cmb.lf65.ams.domain.user.UserRepository;
 import com.cmb.lf65.ams.infrastructure.Util;
 import com.cmb.lf65.ams.rest.AmsPageResource;
 import com.cmb.lf65.ams.rest.AmsResource;
+import com.cmb.lf65.ams.rest.AmsResources;
 import com.cmb.lf65.ams.rest.ErrorCode;
 import com.cmb.lf65.ams.rest.exceptions.BadRequestException;
 import com.cmb.lf65.ams.rest.exceptions.NotFoundException;
@@ -27,6 +28,8 @@ import java.util.Map;
 import static com.cmb.lf65.ams.application.service.Converter.toDomain;
 import static com.cmb.lf65.ams.application.service.Validation.*;
 import static com.cmb.lf65.ams.domain.Error.fromErrorCode;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -67,6 +70,20 @@ public class UsersApi {
 
         AmsPageResource<User> page = new AmsPageResource<>(users, pageable);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/all/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity listAllUsers() {
+        final List<User> all = repository.findAll();
+        final List<AmsResource<User>> resourceList = all.stream().map(u -> {
+            final Link link = linkTo(methodOn(UsersApi.class).showUser(u.getId())).withSelfRel();
+            return new AmsResource<>(u, link);
+        }).collect(toList());
+
+        final AmsResources<User> resources = new AmsResources<>(resourceList, asList(linkTo(methodOn(UsersApi.class).listAllUsers()).withSelfRel()));
+
+        return ResponseEntity.ok(resources);
     }
 
     @GetMapping(value = "/{id}")
