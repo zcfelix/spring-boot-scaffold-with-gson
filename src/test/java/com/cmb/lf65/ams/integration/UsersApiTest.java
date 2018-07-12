@@ -36,6 +36,7 @@ public class UsersApiTest extends ApiTest {
                 .statusCode(200)
                 .body("data[0].name", notNullValue())
                 .body("data[0].sex", matchesRegex("^(MALE|FEMALE)$"))
+                .body("data[0].links.self", matchesRegex(".*/users/[0-9]+"))
                 .body("pages.links", notNullValue())
                 .body("pages.links.self", notNullValue())
                 .body("pages.links.first", notNullValue())

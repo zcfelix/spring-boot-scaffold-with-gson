@@ -1,5 +1,6 @@
 package com.cmb.lf65.ams.infrastructure.gson;
 
+import com.cmb.lf65.ams.rest.AmsPageResources;
 import com.cmb.lf65.ams.rest.AmsResource;
 import com.cmb.lf65.ams.rest.AmsResources;
 import com.google.gson.Gson;
@@ -24,6 +25,7 @@ public class GsonConfiguration {
                 .registerTypeAdapter(linkListType, new LinksTypeAdapter())
                 .registerTypeAdapter(AmsResource.class, new AmsResourceTypeAdapter<>())
                 .registerTypeAdapter(AmsResources.class, new AmsResourcesTypeAdapter<>())
+                .registerTypeAdapter(AmsPageResources.class, new AmsPageResourcesTypeAdapter<>())
                 .create();
     }
 }

@@ -4,10 +4,7 @@ import com.cmb.lf65.ams.domain.Error;
 import com.cmb.lf65.ams.domain.user.User;
 import com.cmb.lf65.ams.domain.user.UserRepository;
 import com.cmb.lf65.ams.infrastructure.Util;
-import com.cmb.lf65.ams.rest.AmsPageResource;
-import com.cmb.lf65.ams.rest.AmsResource;
-import com.cmb.lf65.ams.rest.AmsResources;
-import com.cmb.lf65.ams.rest.ErrorCode;
+import com.cmb.lf65.ams.rest.*;
 import com.cmb.lf65.ams.rest.exceptions.BadRequestException;
 import com.cmb.lf65.ams.rest.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,10 +63,12 @@ public class UsersApi {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity listUsers(Pageable pageable) {
-        Page<User> users = repository.findAll(pageable);
+        final Page<AmsResource<User>> pages = repository
+                .findAll(pageable)
+                .map(x -> new AmsResource<>(x, linkTo(methodOn(UsersApi.class).showUser(x.getId())).withSelfRel()));
 
-        AmsPageResource<User> page = new AmsPageResource<>(users, pageable);
-        return ResponseEntity.ok(page);
+        final AmsPageResources<User> result = new AmsPageResources<>(pages);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/all/all")
